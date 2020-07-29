@@ -67,7 +67,7 @@ where
         });
     let cs_module = ADATPTER
         .0
-        .create_shader_module(include_spirv!("../shaders/sgemm6.spv"))
+        .create_shader_module(include_spirv!("../shaders/sgemm1.spv"))
         // .create_shader_module(get_shader_code(unsafe { TEMPLATE }));
         ;
     let compute_pipeline = ADATPTER

@@ -5,7 +5,7 @@ use std::{
     path::PathBuf,
 };
 pub fn main() {
-    for s_name in ["sgemm1", "sgemm6"].iter() {
+    for s_name in ["sgemm1"].iter() {
         let mut shader_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         shader_path.push("shaders");
         let mut shader_path = shader_path.join(s_name);
