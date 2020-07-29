@@ -1,0 +1,29 @@
+#version 450
+// precision lowp float;
+layout(local_size_x =16, local_size_y = 16) in;
+layout (std430, set = 0, binding = 0) readonly buffer ssbA {
+  float A[];
+};
+layout (std430, set = 0, binding = 1) readonly buffer ssbB {
+  float B[];
+};
+layout (std430, set = 0, binding = 2) writeonly buffer ssbC {
+  float C[];
+};
+layout(std140, binding = 3) uniform Globals {
+    uvec3 MNK;
+};
+// uniform uvec3 MNK;
+void main() {
+    uint M = MNK.x, N = MNK.y, K = MNK.z;
+    // Thread identifiers
+    uint globalRow = gl_GlobalInvocationID.x; // Row ID of C (0..M)
+    uint globalCol = gl_GlobalInvocationID.y; // Col ID of C (0..N)
+    // Compute a single element (loop over K)
+    float acc = 0.0;
+    for (uint k = 0; k < K; k++) {
+        acc += A[k*M + globalRow] * B[globalCol*K + k];
+    }
+    // Store the result
+    C[globalCol*M + globalRow] = acc;
+}
